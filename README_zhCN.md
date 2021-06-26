@@ -37,12 +37,8 @@ import * as flyway from 'midway-flyway-js';
 export class ContainerConfiguration {}
 ```
 
-## 4. 编写升级sql
 
-将你的sql升级脚本，放到 `/src/db/migrition`目录下
-建议命名规则`v{version}__{name}.sql`,例如`v1__init.sql`
-
-## 5. 配置参数【可选】
+## 4. 配置参数【可选】
 `/src/config/config.default.js`文件
 ```js
 export const flyway ={
@@ -65,6 +61,13 @@ export const flyway ={
 }
 
 ```
+## 5. 编写升级sql
+
+将你的sql升级脚本，放到 `/src/db/migrition`目录下
+
+建议命名规则`v{version}__{name}.sql`,例如`v1__init.sql`
+
+
 ## 6. 启动你的midway服务
 ```
 npm run dev

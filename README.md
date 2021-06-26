@@ -36,13 +36,7 @@ imports: [
 export class ContainerConfiguration {}
 ```
 
-## 4. Write upgrade sql file
-
-Put your SQL update script in the directory '/src/db/migration'
-
-The recommended naming convention 'v{version}__{name}.sql', for example 'v1__init.sql'
-
-## 5. Configuration parameters [Optional]
+## 4. Configuration parameters [Optional]
 `/src/config/config.default.js` file
 ```js
 export const flyway ={
@@ -65,6 +59,13 @@ allowHashNotMatch:false
 }
 
 ```
+## 5. Write upgrade sql file
+
+Put your SQL update script in the directory '/src/db/migration'
+
+The recommended naming convention 'v{version}__{name}.sql', for example 'v1__init.sql'
+
+
 ## 6. start midway server
 ```
 npm run dev
