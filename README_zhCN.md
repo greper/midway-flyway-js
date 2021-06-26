@@ -109,6 +109,9 @@ query: COMMIT
 2021-06-26 15:45:39,800 INFO 12245 [ midfly ] end-------------
 ```
 
+# 主要事项
+1. 升级sql文件最后一行请不要有注释，应该以一条sql语句的分号结尾。
+
 # 他们在用
 * [fs-server-js](https://github.com/fast-crud/fs-server-js)
 
