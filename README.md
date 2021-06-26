@@ -36,17 +36,27 @@ imports: [
 export class ContainerConfiguration {}
 ```
 
-## 4. Configuration parameters [Optional]
+## 4. Write upgrade sql file
+
+Put your SQL update script in the directory '/src/db/migration'
+The recommended naming convention 'v{version}__{name}.sql', for example 'v1__init.sql'
+
+## 5. Configuration parameters [Optional]
 `/src/config/config.default.js` file
 ```js
 export const flyway ={
-// script directory, default "./db/migrition"
-scriptDir:"./db/migrition",
-// The baseline, baseline script, and previous scripts are skipped and not executed. Default: null
+// script directory
+// default "./db/migration"
+scriptDir:"./db/migration",
+// The baseline, baseline script and previous scripts are skipped and not executed.
+// Default: null
+// If you start from an empty database ,you do not need to configure this
 baseline: 'v1__init.sql',
-// Execute the record table name, default is flyway_history
+// Execute the record table name,
+// Default: flyway_history
 flywayTableName:'flyway_history',
-// If hash values are allowed to differ, default is false
+// If hash values are allowed to differ
+// Default: false
 // If an SQL file with the same name is changed, the hash will change
 // A hash conflict error is reported at this point
 // Set this parameter to true. Hash conflict errors will be ignored
@@ -54,7 +64,12 @@ allowHashNotMatch:false
 }
 
 ```
-## Run effects
+## 6. start midway server
+```
+npm run dev
+```
+
+## 7. Run effects
 The following effect is a record of the 'v1__init.sql' script being automatically executed after Midway is automatically started
 ```
 The 2021-06-26 15:45:39, 630 INFO 12245 [midfly] start -- -- -- -- -- -- -- -- -- -- -- -- --

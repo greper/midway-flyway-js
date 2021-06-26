@@ -37,17 +37,27 @@ import * as flyway from 'midway-flyway-js';
 export class ContainerConfiguration {}
 ```
 
-## 4. 配置参数【可选】
+## 4. 编写升级sql
+
+将你的sql升级脚本，放到 `/src/db/migrition`目录下
+建议命名规则`v{version}__{name}.sql`,例如`v1__init.sql`
+
+## 5. 配置参数【可选】
 `/src/config/config.default.js`文件
 ```js
 export const flyway ={
-  // 脚本目录，默认值 "./db/migrition"
+  // 脚本目录
+  // 默认值 "./db/migrition"
   scriptDir:"./db/migrition",
-  // 基线，基线脚本及之前的脚本都跳过不执行，默认值：null
+  // 基线，基线脚本及之前的脚本都跳过不执行
+  // 默认值：null
+  // 如果你原本就是空数据库，那么不需要配置此项
   baseline: 'v1__init.sql',
-  // 执行记录表名，默认值 flyway_history
+  // 执行记录表名
+  // 默认值 flyway_history
   flywayTableName:'flyway_history',
-  // 是否允许hash值不同，默认false
+  // 是否允许hash值不同
+  // 默认值：false
   // 相同名称sql文件被改动后，hash会变化
   // 此时运行会报hash conflict错误
   // 配置此参数为true，将忽略hash conflict错误
@@ -55,7 +65,12 @@ export const flyway ={
 }
 
 ```
-## 运行效果
+## 6. 启动你的midway服务
+```
+npm run dev
+```
+
+## 7. 运行效果
 以下效果为midway自动启动后，自动执行`v1__init.sql`脚本的记录
 ```
 2021-06-26 15:45:39,630 INFO 12245 [ midfly ] start-------------
