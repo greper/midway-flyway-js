@@ -1,4 +1,4 @@
-import { ALL, Config, Configuration, Logger } from '@midwayjs/decorator';
+import { Config, Configuration, Logger } from '@midwayjs/decorator';
 import { Flyway } from './flyway';
 import { ILogger } from '@midwayjs/logger';
 
@@ -7,12 +7,13 @@ import { ILogger } from '@midwayjs/logger';
   //importConfigs: [join(__dirname, './config')],
 })
 export class FlywayConfiguration {
-  @Config(ALL)
+  @Config()
   flyway;
 
   @Logger()
   logger: ILogger;
   async onReady() {
+    this.logger.info('flyway start:', this.flyway);
     await new Flyway({ ...this.flyway, logger: this.logger }).run();
   }
 }
