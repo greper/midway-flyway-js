@@ -1,8 +1,9 @@
 {
   "name": "midway-flyway-js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "midway with flyway, sql upgrade way ",
   "main": "dist/index.js",
+  "private": false,
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "midway-bin build -c",
@@ -10,7 +11,9 @@
     "test1": "midway-bin test --ts -V -f test/blank.test.ts -t 'hash-check'",
     "cov": "midway-bin cov --ts",
     "lint": "mwts check",
-    "lint:fix": "mwts fix"
+    "lint:fix": "mwts fix",
+    "prepublish": "npm run build",
+    "publish": "npm publish"
   },
   "keywords": [],
   "author": "greper",
