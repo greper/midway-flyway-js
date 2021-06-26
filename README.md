@@ -66,7 +66,7 @@ Put your SQL update script in the directory '/src/db/migration'
 The recommended naming convention 'v{version}__{name}.sql', for example 'v1__init.sql'
 
 
-## 6. start midway server
+## 6. Start midway server
 ```
 npm run dev
 ```
