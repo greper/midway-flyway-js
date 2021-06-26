@@ -7,7 +7,7 @@ import { ILogger } from '@midwayjs/logger';
   //importConfigs: [join(__dirname, './config')],
 })
 export class FlywayConfiguration {
-  @Config()
+  @Config('flyway')
   flyway;
 
   @Logger()
