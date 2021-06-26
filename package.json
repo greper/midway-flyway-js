@@ -6,7 +6,9 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "midway-bin build -c",
-    "test": "midway-bin test --ts",
+    "test": "midway-bin test --ts -V",
+    "test1": "midway-bin test --ts -V -f test/blank.test.ts -t 'hash-check'",
+    "test0": "midway-bin test --ts -V -f test/blank.test.ts -t 'hash-check'",
     "cov": "midway-bin cov --ts",
     "lint": "mwts check",
     "lint:fix": "mwts fix"

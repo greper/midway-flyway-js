@@ -49,7 +49,9 @@ export class Flyway {
   async run(ignores?: (RegExp | string)[]) {
     this.logger.info('[ midfly ] start-------------');
     if (!fs.existsSync(this.scriptDir)) {
-      this.logger.info('[ midfly ] scriptDir<'+this.scriptDir+'> not found');
+      this.logger.info(
+        '[ midfly ] scriptDir<' + this.scriptDir + '> not found'
+      );
       return;
     }
 
@@ -104,7 +106,7 @@ export class Flyway {
     const hash = await this.getFileHash(filepath);
     //先删除
     await queryRunner.manager.delete(FlywayHistory, {
-      name: filename
+      name: filename,
     });
     const history = await queryRunner.manager.insert(FlywayHistory, {
       name: filename,
@@ -127,7 +129,7 @@ export class Flyway {
     const scriptFiles = new Array<ScriptFile>();
     files.forEach((file, index) => {
       if (index <= local) {
-        // 基准脚本和基准脚本之前的脚本都执行
+        // 基准脚本和基准脚本之前的脚本都不执行
         scriptFiles.push(new ScriptFile(file, true));
       } else {
         scriptFiles.push(new ScriptFile(file, false));
@@ -236,7 +238,9 @@ export class Flyway {
 
     if (history) {
       if (history.hash !== hash && this.allowHashNotMatch === false) {
-        throw new Error(file + `hash conflict ,old: ${history.hash} != new: ${hash}`);
+        throw new Error(
+          file + `hash conflict ,old: ${history.hash} != new: ${hash}`
+        );
       }
       return true;
     }
@@ -251,24 +255,18 @@ export class Flyway {
   private async execSql(filepath: string, queryRunner: QueryRunner) {
     this.logger.info('[ midfly ] exec ', filepath);
     const content = fs.readFileSync(filepath).toString();
-    const arr = this.slipt2Array(content, ';', ';');
-    let index = 0;
+    const arr = this.splitSql2Array(content);
     for (const s of arr) {
-      await this.execOnePart(s, index, queryRunner);
-      index++;
+      await this.execOnePart(s, queryRunner);
     }
   }
 
-  private async execOnePart(
-    sql: string,
-    index: number,
-    queryRunner: QueryRunner
-  ) {
-    this.logger.info('exec sql: ', index);
+  private async execOnePart(sql: string, queryRunner: QueryRunner) {
+    this.logger.debug('exec sql index: ', sql);
     try {
       await queryRunner.query(sql);
     } catch (err) {
-      this.logger.error('exec sql error ： ', err.message);
+      this.logger.error('exec sql error ： ', err.message, err);
       throw err;
     }
   }
@@ -276,10 +274,8 @@ export class Flyway {
   /**
    * 将字符串分割为数组
    * @param {string} str 字符串
-   * @param {string} splitter 分隔符，默认','
-   * @param {string} repair 尾补符号，分割后的字符串尾部增补符号，默认无尾补符号
    */
-  slipt2Array(str, splitter, repair = '') {
+  splitSql2Array(str) {
     if (!str) {
       return [];
     }
@@ -290,14 +286,48 @@ export class Flyway {
       return [];
     }
 
-    const arr = temp.split(!splitter ? ',' : splitter);
-    const back = [];
-    arr.forEach((s, index) => {
-      if (s) {
-        back[index] = s.trim() + repair;
-      }
-    });
+    const semicolon = ';';
+    const deepChars = ['"', "'"];
+    const splits = [];
 
-    return back;
+    const deepQueue = [];
+    for (let i = 0; i < temp.length; i++) {
+      const charAt = temp.charAt(i);
+
+      if (deepChars.indexOf(charAt) >= 0) {
+        //如果是深度char
+        if (i !== 0 && temp.charAt(i - 1) === '\\') {
+          //如果前一个是转义字符，忽略它
+        } else {
+          //说明需要进出深度了
+          if (
+            deepQueue.length === 0 ||
+            deepQueue[deepQueue.length - 1] !== charAt
+          ) {
+            //进入深度
+            deepQueue.push(charAt);
+          } else {
+            //退出深度
+            deepQueue.pop();
+          }
+        }
+      }
+      //当深度为0，则记录分割点
+      if (charAt === semicolon && deepQueue.length === 0) {
+        splits.push(i + 1);
+      }
+    }
+
+    //分割sql
+
+    const arr = [];
+    let lastIndex = 0;
+    for (const index of splits) {
+      const sql = temp.substring(lastIndex, index);
+      lastIndex = index;
+      arr.push(sql.trim());
+    }
+
+    return arr;
   }
 }
