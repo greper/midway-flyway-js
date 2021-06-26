@@ -17,12 +17,15 @@ describe('test/flyway/flyway.test.ts', () => {
     // close app
     const connection = await getConnection();
     await connection.close();
-    // if (fs.existsSync(dbPath)) {
-    //   fs.rmSync(dbPath)
-    // }
+    if (fs.existsSync(dbPath)) {
+      fs.rmSync(dbPath)
+    }
     console.log('after each')
   });
 
+  /**
+   * sql分割测试
+   */
   it('split', async () => {
     let opts = {
       scriptDir: "./test/db/split"
@@ -33,6 +36,9 @@ describe('test/flyway/flyway.test.ts', () => {
     expect(sqlArray.length).toBe(1);
   });
 
+  /**
+   * sql分号测试
+   */
   it('semicolon', async () => {
     let opts = {
       scriptDir: "./test/db/semicolon"
@@ -45,7 +51,10 @@ describe('test/flyway/flyway.test.ts', () => {
     expect(flywayHistoryRet.length).toBe(1);
   });
 
-  it('success normal', async () => {
+  /**
+   * 正常执行
+   */
+  it('success', async () => {
     let opts = {
       scriptDir: "./test/db/migration"
     };
@@ -72,6 +81,9 @@ describe('test/flyway/flyway.test.ts', () => {
   });
 
 
+  /**
+   * 测试基准线，基准线之前的sql不执行
+   */
   it('base line', async () => {
     let opts = {
       scriptDir: "./test/db/baseline",

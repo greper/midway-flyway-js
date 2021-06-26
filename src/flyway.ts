@@ -254,7 +254,7 @@ export class Flyway {
 
   private async execSql(filepath: string, queryRunner: QueryRunner) {
     this.logger.info('[ midfly ] exec ', filepath);
-    const content = fs.readFileSync(filepath).toString();
+    const content = fs.readFileSync(filepath).toString().trim();
     const arr = this.splitSql2Array(content);
     for (const s of arr) {
       await this.execOnePart(s, queryRunner);
