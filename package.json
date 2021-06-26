@@ -1,6 +1,6 @@
 {
   "name": "midway-flyway-js",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "description": "midway with flyway, sql upgrade way ",
   "main": "dist/index.js",
   "private": false,
@@ -13,7 +13,7 @@
     "lint": "mwts check",
     "lint:fix": "mwts fix",
     "prepublish": "npm run build",
-    "publish": "echo success"
+    "pub": "npm publish"
   },
   "keywords": [],
   "author": "greper",
