@@ -16,6 +16,7 @@ This project implements the database upgrade migration scheme according to the i
 ## 1. Preparation
 * nodejs environment
 * midway project
+* [with typeorm](https://www.yuque.com/midwayjs/midway_v2/orm)
 
 ## 2. Installation
 ```
@@ -110,10 +111,10 @@ query: COMMIT
 The last line of the SQL file should be uncommented and should end with a semicolon of the SQL statement.
 
 # They're using it
-* [fs-server-js](https://github.com/fast-crud/fs-server-js)
+* [fs-server-js](https://github.com/fast-crud/fs-server-js) : midway server starter
 
 # Reference Items
-* [flyway] (https://github.com/flyway/flyway) : Java version flyway
-* [flyway-js] (https://github.com/wanglihui/flyway-js) : Sequelize flyway
+* [flyway](https://github.com/flyway/flyway) : Java version flyway
+* [flyway-js](https://github.com/wanglihui/flyway-js) : Sequelize flyway
 
 Thanks for the above project

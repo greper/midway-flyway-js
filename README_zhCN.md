@@ -17,6 +17,7 @@ flyway是一款java版本的数据库升级迁移解决方案。
 ## 1. 准备
 * nodejs环境
 * midway项目
+* [配置typeorm](https://www.yuque.com/midwayjs/midway_v2/orm)
 
 ## 2. 安装
 ```
