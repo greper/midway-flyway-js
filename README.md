@@ -74,7 +74,7 @@ npm run dev
 ## 7. Run effects
 The following effect is a record of the 'v1__init.sql' script being automatically executed after Midway is automatically started
 ```
-The 2021-06-26 15:45:39, 630 INFO 12245 [midfly] start -- -- -- -- -- -- -- -- -- -- -- -- --
+The 2021-06-26 15:45:39, 630 INFO 12245 [midfly] start -------------------------
 query: SELECT * FROM "sqlite_master" WHERE "type" = 'table' AND "name" = 'flyway_history'
 query:  CREATE TABLE "flyway_history" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "timestamp" bigint NOT NULL,  "name" varchar NOT NULL, "hash" varchar, "success" boolean)
 query: BEGIN TRANSACTION
@@ -104,9 +104,9 @@ CREATE UNIQUE INDEX "IDX_9e7164b2f1ea1348bc0eb0a7da" ON "sys_user" ("username");
 query: INSERT INTO "flyway_history"("id", "name", "hash", "timestamp", "success") VALUES (NULL, ? ,? ,? ,?) - the PARAMETERS: [" v1__init. SQL ", "0 c661bd7afebac224bbaa60bc5bb56e9", 1624693539781, 1]
 query:  SELECT "FlywayHistory"."id" AS "FlywayHistory_id",  "FlywayHistory"."success" AS "FlywayHistory_success" FROM "flyway_history" "FlywayHistory" WHERE "FlywayHistory"."id" =  ? -- PARAMETERS: [1]
 query: COMMIT
-The 2021-06-26 15:45:39, 800 INFO 12245 [midfly] end -- -- -- -- -- -- -- -- -- -- -- -- --
+The 2021-06-26 15:45:39, 800 INFO 12245 [midfly] end --------------------------
 ```
-# Attention
+# Announcements
 The last line of the SQL file should be uncommented and should end with a semicolon of the SQL statement.
 
 # They're using it
