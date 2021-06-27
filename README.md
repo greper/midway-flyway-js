@@ -98,14 +98,15 @@ CREATE TABLE "sys_user_role" ("role_id" integer NOT NULL, "user_id" integer NOT 
 query: INSERT INTO sys_user_role (role_id, user_id) VALUES (1, 1);
 Query: - index: IDX_223de54d6badbe43a5490450c3
 CREATE UNIQUE INDEX "IDX_223de54d6badbe43a5490450c3" ON "sys_role" ("name");
-Query: - index: IDX_9e7164b2f1ea1348bc0eb0a7da
-CREATE UNIQUE INDEX "IDX_9e7164b2f1ea1348bc0eb0a7da" ON "sys_user" ("username");
+Query: - index: IDX_-----
+CREATE UNIQUE INDEX "IDX_----" ON "sys_user" ("username");
 Query: Delete FROM "flyway_history" WHERE "name" =? -- PARAMETERS: ["v1__init.sql"]
-query: INSERT INTO "flyway_history"("id", "name", "hash", "timestamp", "success") VALUES (NULL, ? ,? ,? ,?) - the PARAMETERS: [" v1__init. SQL ", "0 c661bd7afebac224bbaa60bc5bb56e9", 1624693539781, 1]
+query: INSERT INTO "flyway_history"("id", "name", "hash", "timestamp", "success") VALUES (NULL, ? ,? ,? ,?) - the PARAMETERS: [" v1__init. SQL ", "0 ----", 1624693539781, 1]
 query:  SELECT "FlywayHistory"."id" AS "FlywayHistory_id",  "FlywayHistory"."success" AS "FlywayHistory_success" FROM "flyway_history" "FlywayHistory" WHERE "FlywayHistory"."id" =  ? -- PARAMETERS: [1]
 query: COMMIT
-The 2021-06-26 15:45:39, 800 INFO 12245 [midfly] end --------------------------
+The 2021-06-26 15:45:39, 800 INFO 12245 [midfly] end -----
 ```
+
 # Announcements
 The last line of the SQL file should be uncommented and should end with a semicolon of the SQL statement.
 
