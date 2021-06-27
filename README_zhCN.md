@@ -102,14 +102,14 @@ query: -- 索引：IDX_223de54d6badbe43a5490450c3
 CREATE UNIQUE INDEX "IDX_223de54d6badbe43a5490450c3" ON "sys_role" ("name");
 query: -- 索引：IDX_9e7164b2f1ea1348bc0eb0a7da
 CREATE UNIQUE INDEX "IDX_9e7164b2f1ea1348bc0eb0a7da" ON "sys_user" ("username");
-⠋ Midway Starting query: DELETE FROM "flyway_history" WHERE "name" = ? -- PARAMETERS: ["v1__init.sql"]
+query: DELETE FROM "flyway_history" WHERE "name" = ? -- PARAMETERS: ["v1__init.sql"]
 query: INSERT INTO "flyway_history"("id", "name", "hash", "timestamp", "success") VALUES (NULL, ?, ?, ?, ?) -- PARAMETERS: ["v1__init.sql","0c661bd7afebac224bbaa60bc5bb56e9",1624693539781,1]
 query: SELECT "FlywayHistory"."id" AS "FlywayHistory_id", "FlywayHistory"."success" AS "FlywayHistory_success" FROM "flyway_history" "FlywayHistory" WHERE "FlywayHistory"."id" = ? -- PARAMETERS: [1]
 query: COMMIT
 2021-06-26 15:45:39,800 INFO 12245 [ midfly ] end-------------
 ```
 
-# 主要事项
+# 注意事项
 1. 升级sql文件最后一行请不要有注释，应该以一条sql语句的分号结尾。
 
 # 他们在用
