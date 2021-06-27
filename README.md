@@ -92,7 +92,7 @@ CREATE TABLE "sys_role_permission" ("role_id" integer NOT NULL, "permission_id" 
 query: INSERT INTO sys_role_permission (role_id, permission_id) VALUES (1, 1);
 Query: -- table: sys_user
 CREATE TABLE "sys_user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(100) NOT NULL,  "password" varchar(50) NOT NULL, "nick_name" varchar(50), "avatar" varchar(255), "phone_code" varchar(20),  "mobile" varchar(20), "email" varchar(100),"remark" varchar(100), "status" integer NOT NULL DEFAULT (1),  "create_time" datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP),  "update_time" datetime NOT NULL DEFAULT (CURRENT_TIMESTAMP));
-query:  INSERT INTO sys_user (id, username, password, nick_name, avatar, phone_code, mobile, email, status, create_time,  update_time,remark) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 'admin', NULL, NULL, NULL, NULL, 1,  2011123132, 123132,NULL);
+query:  INSERT INTO sys_user (id, username, password, nick_name, avatar, phone_code, mobile, email, status, create_time,  update_time,remark) VALUES (1, 'admin', '***************', 'admin', NULL, NULL, NULL, NULL, 1,  2011123132, 123132,NULL);
 Query: -- table: sys_user_role
 CREATE TABLE "sys_user_role" ("role_id" integer NOT NULL, "user_id" integer NOT NULL, PRIMARY KEY ("role_id",  "user_id"));
 query: INSERT INTO sys_user_role (role_id, user_id) VALUES (1, 1);
