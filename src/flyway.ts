@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { getConnection, QueryRunner, Table } from 'typeorm';
+import { QueryRunner, Table } from 'typeorm';
 import { FlywayHistory } from './entity';
 import * as crypto from 'crypto';
 
@@ -44,6 +44,7 @@ export class Flyway {
     this.baseline = opts.baseline ?? false;
     this.allowHashNotMatch = opts.allowHashNotMatch ?? false;
     this.logger = opts.logger || DefaultLogger;
+    this.connection = opts.connection
   }
 
   async run(ignores?: (RegExp | string)[]) {
@@ -54,8 +55,6 @@ export class Flyway {
       );
       return;
     }
-
-    this.connection = await getConnection();
 
     const scriptFiles = await this.loadScriptFiles();
     const queryRunner = this.connection.createQueryRunner();
@@ -89,6 +88,7 @@ export class Flyway {
         await this.storeSqlExecLog(file.script, filepath, true, queryRunner);
         await queryRunner.commitTransaction();
       } catch (err) {
+        this.logger.error(err)
         await this.storeSqlExecLog(file.script, filepath, false, queryRunner);
         await queryRunner.rollbackTransaction();
         throw err;

@@ -1,22 +1,28 @@
 import {Flyway} from "../src/flyway";
-import {getConnection, createConnections} from 'typeorm';
+import {DataSource} from 'typeorm';
 import * as fs from 'fs'
+import {FlywayHistory} from "../src/entity";
 
 const dbPath = "./data/db.sqlite"
+const AppDataSource = new DataSource({
+  type: "sqlite",
+  database: dbPath,
+  entities: [FlywayHistory]
+})
+
 describe('test/flyway/flyway.test.ts', () => {
 
   beforeEach(async () => {
     if (fs.existsSync(dbPath)) {
       fs.rmSync(dbPath)
     }
-    await createConnections();
+    await  AppDataSource.initialize()
     console.log('before each')
   });
 
   afterEach(async () => {
     // close app
-    const connection = await getConnection();
-    await connection.close();
+    await AppDataSource.destroy()
     if (fs.existsSync(dbPath)) {
       fs.rmSync(dbPath)
     }
@@ -40,11 +46,12 @@ describe('test/flyway/flyway.test.ts', () => {
    * sql分号测试
    */
   it('semicolon', async () => {
+    const connection = AppDataSource
     let opts = {
-      scriptDir: "./test/db/semicolon"
+      scriptDir: "./test/db/semicolon",
+      connection: connection
     };
     await new Flyway(opts).run();
-    const connection = await getConnection();
     const queryRunner = connection.createQueryRunner();
     const flywayHistoryRet = await queryRunner.query("select *  from flyway_history");
     console.log('flywayHistoryRet', flywayHistoryRet)
@@ -55,11 +62,12 @@ describe('test/flyway/flyway.test.ts', () => {
    * 正常执行
    */
   it('success', async () => {
+    const connection = AppDataSource
     let opts = {
-      scriptDir: "./test/db/migration"
+      scriptDir: "./test/db/migration",
+      connection: connection
     };
     await new Flyway(opts).run();
-    const connection = await getConnection();
     const queryRunner = connection.createQueryRunner();
     const ret = await queryRunner.query("select count(*) as count from sys_user");
     console.log('useCount',ret)
@@ -85,9 +93,11 @@ describe('test/flyway/flyway.test.ts', () => {
    * 测试基准线，基准线之前的sql不执行
    */
   it('base line', async () => {
+    const connection = AppDataSource
     let opts = {
       scriptDir: "./test/db/baseline",
-      baseline: 'v0__baseline.sql'
+      baseline: 'v0__baseline.sql',
+      connection
     };
     try {
       await new Flyway(opts).run();
@@ -95,7 +105,6 @@ describe('test/flyway/flyway.test.ts', () => {
       console.log('error',e)
       throw e
     }
-    const connection = await getConnection();
     const queryRunner = connection.createQueryRunner();
     const ret = await queryRunner.query("select count(*) as count from sys_user");
     console.log('useCount', ret)
@@ -112,11 +121,12 @@ describe('test/flyway/flyway.test.ts', () => {
   });
 
   it('hash check', async () => {
+    const connection = AppDataSource;
     let opts = {
-      scriptDir: "./test/db/migration"
+      scriptDir: "./test/db/migration",
+      connection
     };
     await new Flyway(opts).run();
-    const connection = await getConnection();
     const queryRunner = connection.createQueryRunner();
     const ret = await queryRunner.query("select count(*) as count from sys_user");
     console.log('useCount',ret)
@@ -136,19 +146,18 @@ describe('test/flyway/flyway.test.ts', () => {
 
 
   it('blank sql', async () => {
+    const connection = AppDataSource;
     let opts = {
-      scriptDir: "./test/db/blank"
+      scriptDir: "./test/db/blank",
+      connection
     };
     await new Flyway(opts).run();
-    const connection = await getConnection();
+
     const queryRunner = connection.createQueryRunner();
     const flywayHistoryRet = await queryRunner.query("select *  from flyway_history");
     console.log('flywayHistoryRet', flywayHistoryRet)
     expect(flywayHistoryRet.length).toBe(1);
 
   });
-
-
-
 
 });
